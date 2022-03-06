@@ -6,7 +6,6 @@
 
 	<modules>
         <module>testing-lib</module>
-		<module>e2e-tests</module>
 	</modules>
 
 	<parent>
