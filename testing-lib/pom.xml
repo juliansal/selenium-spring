@@ -17,6 +17,7 @@
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
+        <cucumber.version>7.2.3</cucumber.version>
     </properties>
 
     <dependencies>
@@ -40,8 +41,28 @@
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java</artifactId>
-            <version>5.1.1</version>
+            <version>${cucumber.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>7.5</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-spring</artifactId>
+            <version>${cucumber.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-testng</artifactId>
+            <version>${cucumber.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -49,6 +70,26 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.2</version>
+
+                <configuration>
+                    <environmentVariables>
+                        <spring.profiles.active>qa</spring.profiles.active>
+                    </environmentVariables>
+<!--                    <forkCount>3</forkCount>-->
+<!--                    <reuseForks>true</reuseForks>-->
+<!--                    <reportsDirectory>target/surefire-reports-${surefire.forkNumber}</reportsDirectory>-->
+                    <includes>
+                        <include>io.happykraken.basic.runners.Test_DeviantArt</include>
+                        <include>io.happykraken.basic.runners.Test_DeviantArt2</include>
+                        <include>io.happykraken.basic.runners.Test_DeviantArt3</include>
+                    </includes>
+                </configuration>
             </plugin>
         </plugins>
     </build>

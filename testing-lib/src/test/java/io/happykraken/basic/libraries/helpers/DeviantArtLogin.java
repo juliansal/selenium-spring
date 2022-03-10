@@ -1,6 +1,8 @@
-package io.happykraken.basic.pages;
+package io.happykraken.basic.libraries.helpers;
 
+import io.happykraken.basic.libraries.Base;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -23,13 +25,17 @@ public class DeviantArtLogin extends Base {
     @Value("${app.password}")
     private String password;
 
-    public DeviantArtLogin login() {
+    public void login() {
         usernameField.sendKeys(username);
         passwordField.sendKeys(password);
-        btnLogin.click();
+        Actions actions = new Actions(driver);
+
+        actions
+                .click(btnLogin)
+                .build()
+                .perform();
 
         System.out.println("Logging into DeviantArt with " + username);
-        return new DeviantArtLogin();
     }
 
 }

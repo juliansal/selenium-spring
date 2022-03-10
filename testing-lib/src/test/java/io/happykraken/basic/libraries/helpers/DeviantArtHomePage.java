@@ -1,23 +1,22 @@
-package io.happykraken.basic.pages;
+package io.happykraken.basic.libraries.helpers;
 
+import io.happykraken.basic.libraries.Base;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class DeviantArtHomePage extends Base {
-    @Autowired
-    private Actions actions;
 
     @FindBy(css = "a[href*='/users/login']")
     private WebElement linkLogin;
 
-    @FindBy(tagName = "button")
+    @FindBy(css = "header button")
     private List<WebElement> buttons;
 
     @Value("${app.url}")
@@ -28,25 +27,29 @@ public class DeviantArtHomePage extends Base {
     }
 
     public void clickLogin() {
-        linkLogin.click();
+        Actions actions = new Actions(driver);
+        actions
+                .click(linkLogin)
+                .build()
+                .perform();
 
         System.out.println("Clicking on Log In button");
     }
 
     public void clickUserMenu() {
-        WebElement linkUserMenu = buttons
+        Actions actions = new Actions(driver);
+        Optional<WebElement> linkUserMenu = buttons
                 .stream()
                 .filter(WebElement::isDisplayed)
                 .filter(el -> el.getText().equals("User Menu"))
-                .findFirst().get();
+                .findFirst();
 
         actions
-                .moveToElement(linkUserMenu)
-                .pause(500)
-                .click();
+                .click(linkUserMenu.get())
+                .build()
+                .perform();
 
         System.out.println("Clicking on User Menu button");
     }
-
 
 }
