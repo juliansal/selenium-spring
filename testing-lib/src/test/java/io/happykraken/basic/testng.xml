@@ -2,13 +2,8 @@
 <suite name="Suite" verbose="10" configfailurepolicy="skip" parallel="tests">
     <test name="Selenium Spring Test 1">
         <classes>
-            <class name="io.happykraken.basic.DeviantArtTestNG"></class>
+            <class name="io.happykraken.basic.runners.Test_DeviantArt"></class>
         </classes>
     </test>
 
-<!--    <test name="Selenium Spring Test 2">-->
-<!--        <classes>-->
-<!--            <class name="io.happykraken.basic.runners.Test_DeviantArt"></class>-->
-<!--        </classes>-->
-<!--    </test>-->
 </suite>

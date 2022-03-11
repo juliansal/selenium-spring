@@ -28,7 +28,7 @@ class DeviantArtTest {
     @AfterEach
     void tearDown() {
         if (driver != null) {
-            driver.quit();
+//            driver.quit();
         }
     }
 

@@ -1,5 +1,5 @@
-@DeviantArt
-  Feature: DeviantArt 1
+@DeviantArt2
+  Feature: DeviantArt 2
     As a registered user, I want to log into DeviantArt so that I can visit my user dashboard.
 
     Background: Visit DeviantArt homepage

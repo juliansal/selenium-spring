@@ -15,9 +15,12 @@
     <packaging>jar</packaging>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <cucumber.version>7.2.3</cucumber.version>
+        <cucumber.options>--plugin html:target/cucumber</cucumber.options>
+        <test.cucumber.report.dir>target/cucumber</test.cucumber.report.dir>
     </properties>
 
     <dependencies>
@@ -73,21 +76,48 @@
             </plugin>
 
             <plugin>
+                <groupId>net.masterthought</groupId>
+                <artifactId>maven-cucumber-reporting</artifactId>
+                <version>5.3.0</version>
+                <executions>
+                    <execution>
+                        <id>execution</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <projectName>Results</projectName>
+                            <outputDirectory>${project.build.directory}</outputDirectory>
+                            <inputDirectory>${project.build.directory}/cucumber</inputDirectory>
+                            <jsonFiles>
+                                <param>**/*.json</param>
+                            </jsonFiles>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.2</version>
-
+                <executions>
+                    <execution>
+                        <phase>integration-test</phase>
+                    </execution>
+                </executions>
                 <configuration>
                     <environmentVariables>
                         <spring.profiles.active>qa</spring.profiles.active>
                     </environmentVariables>
-<!--                    <forkCount>3</forkCount>-->
-<!--                    <reuseForks>true</reuseForks>-->
+                    <forkCount>3</forkCount>
+                    <reuseForks>false</reuseForks>
+                    <testFailureIgnore>true</testFailureIgnore>
 <!--                    <reportsDirectory>target/surefire-reports-${surefire.forkNumber}</reportsDirectory>-->
                     <includes>
                         <include>io.happykraken.basic.runners.Test_DeviantArt</include>
                         <include>io.happykraken.basic.runners.Test_DeviantArt2</include>
-                        <include>io.happykraken.basic.runners.Test_DeviantArt3</include>
                     </includes>
                 </configuration>
             </plugin>

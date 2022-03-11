@@ -18,7 +18,7 @@ public class DeviantArtTestNG extends AbstractTestNGSpringContextTests {
     @AfterTest
     void tearDown() {
         if (driver != null) {
-            driver.quit();
+//            driver.quit();
         }
     }
 

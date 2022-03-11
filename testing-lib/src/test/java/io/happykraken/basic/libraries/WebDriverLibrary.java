@@ -11,12 +11,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 
 import java.util.concurrent.TimeUnit;
 
 @Configuration
 public class WebDriverLibrary {
-    private static WebDriver webdriver;
+    private WebDriver webdriver;
 
     @Bean
     @ConditionalOnProperty(name = "browser", havingValue = "chrome")
@@ -27,15 +28,14 @@ public class WebDriverLibrary {
         return webdriver;
     }
 
-//    @Bean
-//    @ConditionalOnProperty(name = "browser", havingValue = "safari")
-//    @Scope("driverscope")
-//    public WebDriver getSafariDriver() {
-//        WebDriverManager.safaridriver().setup();
-//        webdriver = new SafariDriver();
-//
-//        return webdriver;
-//    }
+    @Bean
+    @ConditionalOnProperty(name = "browser", havingValue = "safari")
+    public WebDriver getSafariDriver() {
+        WebDriverManager.safaridriver().setup();
+        webdriver = new SafariDriver();
+
+        return webdriver;
+    }
 
     @Bean
     public void driverSettings() {
