@@ -3,14 +3,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>selenium-spring</artifactId>
         <groupId>io.happykraken.testing</groupId>
+        <artifactId>selenium-spring</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>io.happykraken.testing.selenium</groupId>
-    <artifactId>testing-lib</artifactId>
+    <artifactId>selenium-tests</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
@@ -66,6 +65,11 @@
             <version>${cucumber.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -114,10 +118,8 @@
                     <forkCount>3</forkCount>
                     <reuseForks>false</reuseForks>
                     <testFailureIgnore>true</testFailureIgnore>
-<!--                    <reportsDirectory>target/surefire-reports-${surefire.forkNumber}</reportsDirectory>-->
                     <includes>
-                        <include>io.happykraken.basic.runners.Test_DeviantArt</include>
-                        <include>io.happykraken.basic.runners.Test_DeviantArt2</include>
+                        <include>io.happykraken.basic.runners.Test_TheInternet</include>
                     </includes>
                 </configuration>
             </plugin>

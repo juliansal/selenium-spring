@@ -8,6 +8,8 @@ import io.happykraken.basic.libraries.helpers.DeviantArtHomePage;
 import io.happykraken.basic.libraries.helpers.DeviantArtLogin;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 public class StepsDeviantArt extends Base {

@@ -4,6 +4,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.support.ui.Wait;
@@ -11,7 +12,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Scope;
 
 import java.util.concurrent.TimeUnit;
 
@@ -23,7 +23,9 @@ public class WebDriverLibrary {
     @ConditionalOnProperty(name = "browser", havingValue = "chrome")
     public WebDriver getChromeDriver() {
         WebDriverManager.chromedriver().setup();
-        webdriver = new ChromeDriver();
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--headless");
+        webdriver = new ChromeDriver(chromeOptions);
 
         return webdriver;
     }
