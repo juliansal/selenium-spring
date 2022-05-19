@@ -5,7 +5,7 @@
     <packaging>pom</packaging>
 
 	<modules>
-        <module>selenium-tests</module>
+        <module>use-testng</module>
 	</modules>
 
 	<parent>
