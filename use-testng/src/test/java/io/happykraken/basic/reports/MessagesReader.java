@@ -3,162 +3,70 @@ package io.happykraken.basic.reports;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.testng.log4testng.Logger;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
-
-public class MessagesReader {
-	private static Logger logger = Logger.getLogger(Logger.class);
+public class MessagesReader implements IMessagesReader {
 	ObjectMapper mapper = new ObjectMapper();
+	public final List<Map<?, ?>> stepIdentifiers = new ArrayList<>();
 
-	public static void main(String[] args) {
-		MessagesReader reader = new MessagesReader();
-		try {
-			reader.read();
-		} catch (Exception e) {
-			logger.error(e);
-		}
+	public List<Map<?, ?>> getStepIdentifiers() {
+		return stepIdentifiers;
 	}
 
-	public void read() throws IOException, URISyntaxException {
-		Path path = Paths.get(getClass().getClassLoader().getResource("message.txt").toURI());
+	@Override
+	public List<String> readMessagesLog() throws URISyntaxException, IOException {
+		Path path = Paths.get(Objects
+				.requireNonNull(
+						getClass()
+								.getClassLoader()
+								.getResource("message.txt"))
+				.toURI()
+		);
 		BufferedReader reader = new BufferedReader(new FileReader(path.toFile()));
 		List<String> messages = reader.lines().collect(Collectors.toList());
 		reader.close();
-		Map stepStats = new HashMap<>();
-		List<Map> stepsMap = new ArrayList<>();
 
-		List<Map> altStepStats = new ArrayList<>();
-		List<Map> altStepMap = new ArrayList<>();
-
-		findTestCase(messages, stepStats)
-				.ifPresent(tCase -> {
-					try {
-						JsonNode allTestCases = mapper.readValue(tCase, JsonNode.class)
-								.with("testCase")
-								.withArray("testSteps");
-
-						for (int i = 0; i < allTestCases.size(); i++) {
-							JsonNode currentStep = allTestCases.get(i);
-
-							if (currentStep.withArray("stepDefinitionIds").size() > 0) {
-								altStepStats.add(Map.of(
-										"stepId", currentStep
-												.get("id").asText(),
-										"stepDefId", currentStep
-												.withArray("stepDefinitionIds")
-												.get(0).asText()
-								));
-							}
-						}
-
-						stepStats.put("stepId", allTestCases.get(0)
-								.get("id").asText());
-						stepStats.put("stepDefId", allTestCases.get(0)
-								.withArray("stepDefinitionIds").get(0).asText());
-					} catch (JsonProcessingException e) {
-						e.printStackTrace();
-					}
-				});
-
-		altStepStats
-				.forEach(step -> {
-					findStepDefinition(messages, stepStats)
-							.ifPresent(line -> {
-								try {
-									JsonNode msg = mapper.readValue(line, JsonNode.class);
-									stepStats.put("step", msg
-											.with("stepDefinition")
-											.with("pattern")
-											.get("source").textValue());
-								} catch (JsonProcessingException e) {
-									e.printStackTrace();
-								}
-							});
-
-					findTestStepFinished(messages, stepStats)
-							.ifPresent(line -> {
-								try {
-									JsonNode msg = mapper.readValue(line, JsonNode.class);
-									stepStats.put("seconds", msg
-											.with("testStepFinished")
-											.with("testStepResult")
-											.with("duration").get("seconds").intValue());
-									stepStats.put("nanos", msg
-											.with("testStepFinished")
-											.with("testStepResult")
-											.with("duration").get("nanos").intValue());
-								} catch (JsonProcessingException e) {
-									e.printStackTrace();
-								}
-							});
-				});
-
-		findStepDefinition(messages, stepStats)
-				.ifPresent(line -> {
-					try {
-						JsonNode msg = mapper.readValue(line, JsonNode.class);
-						stepStats.put("step", msg
-								.with("stepDefinition")
-								.with("pattern")
-								.get("source").textValue());
-					} catch (JsonProcessingException e) {
-						e.printStackTrace();
-					}
-				});
-
-		findTestStepFinished(messages, stepStats)
-				.ifPresent(line -> {
-					try {
-						JsonNode msg = mapper.readValue(line, JsonNode.class);
-						stepStats.put("seconds", msg
-								.with("testStepFinished")
-								.with("testStepResult")
-								.with("duration").get("seconds").intValue());
-						stepStats.put("nanos", msg
-								.with("testStepFinished")
-								.with("testStepResult")
-								.with("duration").get("nanos").intValue());
-					} catch (JsonProcessingException e) {
-						e.printStackTrace();
-					}
-				});
-
-		stepsMap.add(Map.of(
-				"step", stepStats.get("step"),
-				"duration", Map.of(
-						"seconds", stepStats.get("seconds"),
-						"nanos", stepStats.get("nanos"))
-		));
-
-		for (int i = 0; i < altStepStats.size(); i++) {
-			String finished = findTestStepFinished(messages, altStepStats.get(i)).get();
-			Map step = stepMap(finished);
-			String def = findStepDefinition(messages, altStepStats.get(i)).get();
-			String stepName = stepDefinition(def);
-
-			altStepMap.add(Map.of(
-					"step", stepName,
-					"duration", Map.of(
-							"seconds", step.get("seconds"),
-							"nanos", step.get("nanos"))
-			));
-		}
-
-		System.out.println("stepStats: " + mapper.writeValueAsString(stepStats));
-		System.out.println("altStepStats: " + mapper.writeValueAsString(altStepStats));
-		System.out.println("stepsMap: " + mapper.writeValueAsString(stepsMap));
-		System.out.println("altStepMap: " + mapper.writeValueAsString(altStepMap));
+		return messages;
 	}
 
-	public String stepDefinition(String line) {
+	@Override
+	public void addToStepIdentifiersMap(String tCase) {
+		try {
+			JsonNode allTestCases = mapper.readValue(tCase, JsonNode.class)
+					.with("testCase")
+					.withArray("testSteps");
+
+			for (int i = 0; i < allTestCases.size(); i++) {
+				JsonNode currentStep = allTestCases.get(i);
+
+				if (currentStep.withArray("stepDefinitionIds").size() > 0) {
+					stepIdentifiers.add(Map.of(
+							"stepId", currentStep
+									.get("id").asText(),
+							"stepDefId", currentStep
+									.withArray("stepDefinitionIds")
+									.get(0).asText()
+					));
+				}
+			}
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public String findStepName(String line) {
 		try {
 			JsonNode msg = mapper.readValue(line, JsonNode.class);
 			return msg
@@ -171,24 +79,30 @@ public class MessagesReader {
 		}
 	}
 
-	public Map stepMap(String finishedTestStep) {
+	@Override
+	public String findStepDuration(String finishedTestStep) {
 		try {
 			JsonNode msg = mapper.readValue(finishedTestStep, JsonNode.class);
-			return Map.of("seconds", msg
+			int nanoScale = 1_000_000_000;
+			long nanos = msg
 					.with("testStepFinished")
 					.with("testStepResult")
-					.with("duration").get("seconds").intValue(),
-					"nanos", msg
-							.with("testStepFinished")
-							.with("testStepResult")
-							.with("duration").get("nanos").intValue());
+					.with("duration").get("nanos").intValue();
+			int seconds = msg
+					.with("testStepFinished")
+					.with("testStepResult")
+					.with("duration").get("seconds").intValue();
+			float nanosToSeconds = seconds + ((float) nanos / nanoScale);
+
+			return Float.toString(nanosToSeconds);
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
 
-	Optional<String> findTestCase(List<String> messages, Map stepStats) {
+	@Override
+	public String findTestCaseMessage(List<String> messages) {
 		return messages
 				.stream()
 				.filter(line -> line.contains("testCase"))
@@ -202,10 +116,12 @@ public class MessagesReader {
 						return false;
 					}
 				})
-				.findFirst();
+				.findFirst()
+				.orElse("");
 	}
 
-	Optional<String> findTestStepFinished(List<String> messages, Map stepStats) {
+	@Override
+	public String findStepFinishedMessage(List<String> messages, Map<?, ?> stepStats) {
 		return messages
 				.stream()
 				.filter(line -> line.contains("testStepFinished"))
@@ -222,10 +138,12 @@ public class MessagesReader {
 						return false;
 					}
 				})
-				.findFirst();
+				.findFirst()
+				.orElse("");
 	}
 
-	Optional<String> findStepDefinition(List<String> messages, Map stepStats) {
+	@Override
+	public String findStepMessage(List<String> messages, Map<?, ?> stepStats) {
 		return messages
 				.stream()
 				.filter(line -> line.contains("stepDefinition"))
@@ -242,27 +160,7 @@ public class MessagesReader {
 						return false;
 					}
 				})
-				.findFirst();
-	}
-
-	void showAllStepDefinitions(BufferedReader reader) {
-
-		reader
-				.lines()
-				.filter(line -> line.contains("stepDefinition"))
-				.forEach(line -> {
-					try {
-						JsonNode msg = mapper.readValue(line, JsonNode.class);
-						if (msg.has("stepDefinition")) {
-							logger.info(msg
-									.with("stepDefinition")
-									.get("pattern")
-									.get("source")
-							);
-						}
-					} catch (JsonProcessingException e) {
-						e.printStackTrace();
-					}
-				});
+				.findFirst()
+				.orElse("");
 	}
 }
