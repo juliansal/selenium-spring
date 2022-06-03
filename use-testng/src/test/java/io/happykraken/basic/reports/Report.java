@@ -9,44 +9,44 @@ import java.util.*;
 
 public class Report {
 	private static final Logger logger = Logger.getLogger(Logger.class);
-	private final List<Map<?, ?>> stepMap = new ArrayList<>();
+	private final List<Map<?, ?>> stepsMap = new ArrayList<>();
 	private final ObjectMapper mapper = new ObjectMapper();
-	IMessagesReader messagesReportReader;
+	IMessagesReader reader;
 
-	public Report() {
-		this.messagesReportReader = new MessagesReader();
+	public Report(IMessagesReader reader) {
+		this.reader = reader;
 	}
 
 	public static void main(String[] args) {
-		Report reader = new Report();
+		Report report = new Report(new MessagesReader());
 		try {
-			reader.read();
+			report.read();
 		} catch (Exception e) {
 			logger.error(e);
 		}
 	}
 
 	public void read() throws IOException, URISyntaxException {
-		List<String> messages = messagesReportReader.readMessagesLog();
-		String testCaseMessage = messagesReportReader.findTestCaseMessage(messages);
+		List<String> messages = reader.readMessagesLog();
+		String testCaseMessage = reader.findTestCaseMessage(messages);
 		Optional
 				.ofNullable(testCaseMessage)
-				.ifPresent(tCase -> messagesReportReader.addToStepIdentifiersMap(tCase));
+				.ifPresent(tCase -> reader.addToStepIdentifiersMap(tCase));
 
-		for (Map<?, ?> stepStat : messagesReportReader.getStepIdentifiers()) {
-			String finished = messagesReportReader.findStepFinishedMessage(messages, stepStat);
-			String seconds = messagesReportReader.findStepDuration(finished);
-			String stepMsg = messagesReportReader.findStepMessage(messages, stepStat);
-			String stepName = messagesReportReader.findStepName(stepMsg);
+		for (Map<?, ?> stepStat : reader.getStepIdentifiers()) {
+			String finished = reader.findStepFinishedMessage(messages, stepStat);
+			String seconds = reader.findStepDuration(finished);
+			String stepMsg = reader.findStepMessage(messages, stepStat);
+			String stepName = reader.findStepName(stepMsg);
 
-			stepMap.add(Map.of(
+			stepsMap.add(Map.of(
 					"step", stepName,
 					"duration", Map.of("seconds", seconds)
 			));
 		}
 
-		System.out.println("altStepStats: " + mapper.writeValueAsString(messagesReportReader.getStepIdentifiers()));
-		System.out.println("altStepMap: " + mapper.writeValueAsString(stepMap));
+		System.out.println("StepStats: " + mapper.writeValueAsString(reader.getStepIdentifiers()));
+		System.out.println("StepsMap: " + mapper.writeValueAsString(stepsMap));
 	}
 
 }
