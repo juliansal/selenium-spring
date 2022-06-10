@@ -1,8 +1,9 @@
 package io.happykraken.basic.reports;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.cucumber.core.plugin.MessageFormatter;
 import org.testng.log4testng.Logger;
-import java.io.IOException;
+import java.io.*;
 import java.net.URISyntaxException;
 import java.util.*;
 
@@ -28,6 +29,7 @@ public class Report {
 
 	public void read() throws IOException, URISyntaxException {
 		List<String> messages = reader.readMessagesLog();
+		reader.closeReader();
 		String testCaseMessage = reader.findTestCaseMessage(messages);
 		Optional
 				.ofNullable(testCaseMessage)
@@ -47,6 +49,9 @@ public class Report {
 
 		System.out.println("StepStats: " + mapper.writeValueAsString(reader.getStepIdentifiers()));
 		System.out.println("StepsMap: " + mapper.writeValueAsString(stepsMap));
+
+		MessageFormatter formatter = new MessageFormatter(OutputStream.nullOutputStream());
+
 	}
 
 }

@@ -3,6 +3,7 @@ package io.happykraken.basic.reports;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.cucumber.messages.types.TestCase;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -19,6 +20,9 @@ import java.util.stream.Collectors;
 public class MessagesReader implements IMessagesReader {
 	ObjectMapper mapper = new ObjectMapper();
 	public final List<Map<?, ?>> stepIdentifiers = new ArrayList<>();
+	private BufferedReader reader;
+
+	public MessagesReader() {}
 
 	@Override
 	public List<Map<?, ?>> getStepIdentifiers() {
@@ -34,11 +38,13 @@ public class MessagesReader implements IMessagesReader {
 								.getResource("message.txt"))
 				.toURI()
 		);
-		BufferedReader reader = new BufferedReader(new FileReader(path.toFile()));
-		List<String> messages = reader.lines().collect(Collectors.toList());
-		reader.close();
+		reader = new BufferedReader(new FileReader(path.toFile()));
 
-		return messages;
+		return reader.lines().collect(Collectors.toList());
+	}
+
+	public void closeReader() throws IOException {
+		if (reader.ready()) reader.close();
 	}
 
 	@Override
@@ -106,7 +112,6 @@ public class MessagesReader implements IMessagesReader {
 	public String findTestCaseMessage(List<String> messages) {
 		return messages
 				.stream()
-				.filter(line -> line.contains("testCase"))
 				.filter(line -> {
 					try {
 						return mapper
@@ -125,7 +130,6 @@ public class MessagesReader implements IMessagesReader {
 	public String findStepFinishedMessage(List<String> messages, Map<?, ?> stepStats) {
 		return messages
 				.stream()
-				.filter(line -> line.contains("testStepFinished"))
 				.filter(line -> {
 					try {
 						JsonNode msg = mapper.readValue(line, JsonNode.class);
@@ -147,7 +151,6 @@ public class MessagesReader implements IMessagesReader {
 	public String findStepMessage(List<String> messages, Map<?, ?> stepStats) {
 		return messages
 				.stream()
-				.filter(line -> line.contains("stepDefinition"))
 				.filter(line -> {
 					try {
 						JsonNode msg = mapper.readValue(line, JsonNode.class);

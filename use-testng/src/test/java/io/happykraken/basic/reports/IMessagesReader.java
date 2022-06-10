@@ -21,4 +21,6 @@ public interface IMessagesReader {
 	String findStepMessage(List<String> messages, Map<?, ?> stepStats);
 
 	List<Map<?, ?>> getStepIdentifiers();
+
+	void closeReader() throws IOException;
 }
