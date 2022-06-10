@@ -8,7 +8,11 @@ import org.testng.annotations.DataProvider;
         features = {"src/test/java/io/happykraken/basic/features"},
         glue = "io.happykraken.basic.libraries",
         tags = "@TheInternet",
-        plugin = {"json:target/cucumber/TheInternet/cucumber.json"}
+        plugin = {
+                "message:target/cucumber/TheInternet/message.txt",
+                "pretty",
+                "json:target/cucumber/TheInternet/cucumber.json"
+        }
 )
 public class Test_TheInternet extends AbstractTestNGCucumberTests {
 
