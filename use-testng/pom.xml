@@ -119,7 +119,7 @@
                     <reuseForks>false</reuseForks>
                     <testFailureIgnore>true</testFailureIgnore>
                     <includes>
-                        <include>io.happykraken.basic.runners.Test_TheInternet</include>
+                        <include>**/runners/Test_*.java</include>
                     </includes>
                 </configuration>
             </plugin>
