@@ -11,7 +11,8 @@ import org.testng.annotations.DataProvider;
         plugin = {
                 "message:target/cucumber/TheInternet/message.txt",
                 "pretty",
-                "json:target/cucumber/TheInternet/cucumber.json"
+                "json:target/cucumber/TheInternet/cucumber.json",
+                "junit:target/cucumber/TheInternet/cucumber.xml"
         }
 )
 public class Test_TheInternet extends AbstractTestNGCucumberTests {
