@@ -2,14 +2,7 @@ package io.happykraken.basic.runners;
 
 import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
-import org.testng.ITestContext;
-import org.testng.ITestResult;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
-
-import java.lang.reflect.Method;
 
 @CucumberOptions(
         features = {"src/test/java/io/happykraken/basic/features"},
