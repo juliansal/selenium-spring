@@ -10,7 +10,9 @@ import org.testng.annotations.DataProvider;
         tags = "@DeviantArt",
         plugin = {
                 "json:target/cucumber/DeviantArt/cucumber.json",
-                "junit:target/cucumber/DeviantArt/cucumber.xml"
+                "junit:target/cucumber/DeviantArt/cucumber.xml",
+                "html:target/cucumber/DeviantArt/index.html",
+                "pretty"
         }
 )
 public class Test_DeviantArt extends AbstractTestNGCucumberTests {

@@ -12,7 +12,8 @@ import org.testng.annotations.DataProvider;
                 "message:target/cucumber/TheInternet/message.txt",
                 "pretty",
                 "json:target/cucumber/TheInternet/cucumber.json",
-                "junit:target/cucumber/TheInternet/cucumber.xml"
+                "junit:target/cucumber/TheInternet/cucumber.xml",
+                "html:target/cucumber/TheInternet/index.html"
         }
 )
 public class Test_TheInternet extends AbstractTestNGCucumberTests {
