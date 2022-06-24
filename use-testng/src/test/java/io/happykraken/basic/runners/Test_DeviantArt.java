@@ -8,7 +8,12 @@ import org.testng.annotations.DataProvider;
         features = {"src/test/java/io/happykraken/basic/features"},
         glue = "io.happykraken.basic.libraries",
         tags = "@DeviantArt",
-        plugin = {"json:target/cucumber/DeviantArt/cucumber.json"}
+        plugin = {
+                "json:target/cucumber/DeviantArt/cucumber.json",
+                "junit:target/cucumber/DeviantArt/cucumber.xml",
+                "html:target/cucumber/DeviantArt/index.html",
+                "pretty"
+        }
 )
 public class Test_DeviantArt extends AbstractTestNGCucumberTests {
 

@@ -1,9 +1,7 @@
 package io.happykraken.basic.libraries;
 
 import io.cucumber.java.*;
-import io.cucumber.plugin.EventListener;
-import io.cucumber.plugin.event.EventPublisher;
-import io.cucumber.plugin.event.TestStepFinished;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
