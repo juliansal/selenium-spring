@@ -11,7 +11,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -27,7 +26,11 @@ jobs:
           browser: chrome
           driver.settings: chrome
         run: mvn clean install --file use-testng/pom.xml
-
+        
+  page_build:
+    runs-on: ubuntu-latest
+    
+    steps:
       - name: GitHub Pages action
         uses: peaceiris/actions-gh-pages@v3.7.3
         with:
