@@ -26,4 +26,7 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Run UI Tests
+      env:
+        browser: chrome
+        driver.settings: chrome
       run: mvn clean install --file use-testng/pom.xml
