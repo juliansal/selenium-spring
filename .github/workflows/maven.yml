@@ -15,22 +15,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up JDK 11
-      uses: actions/setup-java@v3
-      with:
-        java-version: '11'
-        distribution: 'adopt'
-        cache: maven
-    - name: Run UI Tests
-      env:
-        browser: chrome
-        driver.settings: chrome
-      run: mvn clean install --file use-testng/pom.xml
+      - uses: actions/checkout@v3
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+          cache: maven
+      - name: Run UI Tests
+        env:
+          browser: chrome
+          driver.settings: chrome
+        run: mvn clean install --file use-testng/pom.xml
 
-    - name: GitHub Pages action
-      uses: peaceiris/actions-gh-pages@v3.7.3
-      with:
-        access-token: ${{ secrets.GITHUB_TOKEN }} 
-        path: 'use-testng/target/cucumber-html-reports'
+      - name: GitHub Pages action
+        uses: peaceiris/actions-gh-pages@v3.7.3
+        with:
+          access-token: ${{ secrets.GITHUB_TOKEN }} 
+          path: 'use-testng/target/cucumber-html-reports'
 
