@@ -34,6 +34,6 @@ jobs:
       - name: GitHub Pages action
         uses: peaceiris/actions-gh-pages@v3.7.3
         with:
-          access-token: ${{ secrets.github_token }} 
+          access-token: ${{ github_token }} 
           path: 'use-testng/target/cucumber-html-reports'
 
