@@ -34,6 +34,6 @@ jobs:
     - name: Cucumber Report to Annotations
       uses: deblockt/cucumber-report-annotations-action@v1.9
       with:
-        access-token: ${{ secrets.GITHUB_TOKEN }}
-        path: '**/target/cucumber/*/cucumber.json'
+        access-token: ${{ secrets.GITHUB_TOKEN }} 
+        path: '**/cucumber.json'
 
