@@ -25,11 +25,11 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
       
-			- name: Katalon Report Uploader 
-				uses: katalon-studio/report-uploader@v0.0.8
-				env:
-					PASSWORD: 53d8a8fc-a281-449d-913f-61efbf53ff25
-					PROJECT_ID: 771944
-					TYPE: junit
-					REPORT_PATH: reports
+      - name: Katalon Report Uploader
+        uses: katalon-studio/report-uploader@v0.0.8
+        env:
+          PASSWORD: 53d8a8fc-a281-449d-913f-61efbf53ff25
+          PROJECT_ID: 771944
+          TYPE: junit
+          REPORT_PATH: reports
     
