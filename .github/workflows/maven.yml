@@ -23,4 +23,12 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      run: mvn -B package --file pom.xml
+      run: mvn -B install --file use-testng/pom.xml
+      
+    - name: Katalon Report Uploader
+      uses: katalon-studio/report-uploader@v0.0.8
+      env:
+        PASSWORD: 53d8a8fc-a281-449d-913f-61efbf53ff25
+        PROJECT_ID: 771944
+        TYPE: junit
+        REPORT_PATH: 'use-testng/target/cucumber-html-reports'
