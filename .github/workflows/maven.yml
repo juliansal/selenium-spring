@@ -13,9 +13,6 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    env:
-      browser: chrome
-      driver.settings: chrome
 
     steps:
     - uses: actions/checkout@v3
@@ -31,8 +28,7 @@ jobs:
         driver.settings: chrome
       run: mvn clean install --file use-testng/pom.xml
       
-    - name: Cucumber Report to Annotations
-      uses: deblockt/cucumber-report-annotations-action@v1.9
+    - uses: deblockt/cucumber-report-annotations-action@v1.9
       with:
         access-token: ${{ secrets.GITHUB_TOKEN }} 
         path: '**/cucumber.json'
