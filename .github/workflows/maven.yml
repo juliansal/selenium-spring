@@ -27,11 +27,6 @@ jobs:
         browser: chrome
         driver.settings: chrome
       run: mvn clean install --file use-testng/pom.xml
-      
-    - uses: deblockt/cucumber-report-annotations-action@v1.9
-      with:
-        access-token: ${{ secrets.GITHUB_TOKEN }} 
-        path: 'use-testng/target/cucumber/**/cucumber.json'
 
     - name: GitHub Pages action
       uses: peaceiris/actions-gh-pages@v3.7.3
