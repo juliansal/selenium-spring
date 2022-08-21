@@ -119,7 +119,7 @@
                     <reuseForks>false</reuseForks>
                     <testFailureIgnore>true</testFailureIgnore>
                     <includes>
-                        <include>**/runners/Test_*.java</include>
+                        <include>**/runners/Test_TheInternet.java</include>
                     </includes>
                 </configuration>
             </plugin>
