@@ -27,13 +27,4 @@ jobs:
           driver.settings: chrome
         run: mvn clean install --file use-testng/pom.xml
         
-  page_build:
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: GitHub Pages action
-        uses: peaceiris/actions-gh-pages@v3.7.3
-        with:
-          access-token: ${{ github_token }} 
-          path: 'use-testng/target/cucumber-html-reports'
 
