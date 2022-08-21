@@ -25,6 +25,6 @@ jobs:
         env:
           browser: chrome
           driver.settings: chrome
-        run: mvn clean install --file use-testng/pom.xml
+        run: mvn clean verify --file use-testng/pom.xml
         
 
