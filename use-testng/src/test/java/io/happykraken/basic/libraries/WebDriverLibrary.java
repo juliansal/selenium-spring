@@ -55,7 +55,7 @@ public class WebDriverLibrary {
     public WebDriver getChromeDriver() {
         WebDriverManager.chromedriver().setup();
         ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--headless");
+//        chromeOptions.addArguments("--headless");
 
         webdriver = new ChromeDriver(chromeOptions);
 

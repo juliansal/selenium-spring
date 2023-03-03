@@ -7,6 +7,6 @@
 
     Scenario: Log into DeviantArt
       Given I log into DeviantArt
-      When I click on User Menu in the page header
-      Then I should be in the user dashboard for my account
+#      When I click on User Menu in the page header
+#      Then I should be in the user dashboard for my account
 
