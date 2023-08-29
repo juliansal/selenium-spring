@@ -32,7 +32,7 @@
         <dependency>
             <groupId>io.github.bonigarcia</groupId>
             <artifactId>webdrivermanager</artifactId>
-            <version>5.1.0</version>
+            <version>5.3.2</version>
         </dependency>
 
         <dependency>
@@ -115,11 +115,11 @@
                     <environmentVariables>
                         <spring.profiles.active>qa</spring.profiles.active>
                     </environmentVariables>
-                    <forkCount>3</forkCount>
+                    <forkCount>5</forkCount>
                     <reuseForks>false</reuseForks>
                     <testFailureIgnore>true</testFailureIgnore>
                     <includes>
-                        <include>**/runners/Test_*.java</include>
+                        <include>**/runners/Test_TheInternet.java</include>
                     </includes>
                 </configuration>
             </plugin>
