@@ -3,6 +3,7 @@
     <test name="Selenium Spring Test 1">
         <classes>
             <class name="io.happykraken.basic.runners.Test_DeviantArt"></class>
+            <class name="io.happykraken.basic.runners.Test_TheInternet"></class>
         </classes>
     </test>
 

@@ -12,3 +12,11 @@
       | tomsmith  | SuperSecretPassword!  |
       Then I should see "Secure Area"
       And I should see "Welcome to the Secure Area."
+
+    Scenario: Log into the Form Authentication
+      Given I click on "Form Authentication"
+      When I log in using credentials:
+        | username  | password              |
+        | tomsmith  | SuperSecretPassword!  |
+      Then I should see "Secure Area"
+      And I should see "Welcome to the Secure Area."

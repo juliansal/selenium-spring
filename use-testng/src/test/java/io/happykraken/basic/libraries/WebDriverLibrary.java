@@ -15,6 +15,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,6 +28,9 @@ import java.util.logging.Level;
 @Configuration
 public class WebDriverLibrary {
     private WebDriver webdriver;
+
+    @Value("${browser.headless:true}")
+    private boolean isHeadless;
 
     @Bean
     @ConditionalOnProperty(name = "browser", havingValue = "remoteChrome")
@@ -43,7 +47,7 @@ public class WebDriverLibrary {
 
         webdriver = WebDriverManager
                 .chromedriver()
-                .remoteAddress("http://192.168.1.230:4444")
+                .remoteAddress("http://192.168.1.230:4444/wd/hub")
                 .capabilities(chromeOptions)
                 .create();
 
@@ -55,7 +59,8 @@ public class WebDriverLibrary {
     public WebDriver getChromeDriver() {
         WebDriverManager.chromedriver().setup();
         ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--headless");
+
+        if (isHeadless) chromeOptions.addArguments("--headless");
 
         webdriver = new ChromeDriver(chromeOptions);
 

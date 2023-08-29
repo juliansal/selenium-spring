@@ -24,6 +24,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.apache.httpcomponents.client5</groupId>
+            <artifactId>httpclient5</artifactId>
+            <version>5.2.1</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
             <version>3.141.59</version>
@@ -32,7 +38,7 @@
         <dependency>
             <groupId>io.github.bonigarcia</groupId>
             <artifactId>webdrivermanager</artifactId>
-            <version>5.1.0</version>
+            <version>5.5.2</version>
         </dependency>
 
         <dependency>
@@ -115,7 +121,7 @@
                     <environmentVariables>
                         <spring.profiles.active>qa</spring.profiles.active>
                     </environmentVariables>
-                    <forkCount>3</forkCount>
+                    <forkCount>5</forkCount>
                     <reuseForks>false</reuseForks>
                     <testFailureIgnore>true</testFailureIgnore>
                     <includes>
