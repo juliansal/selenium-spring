@@ -11,11 +11,9 @@ pool:
 
 steps:
 - task: Maven@3
-- task: Maven@3
   inputs:
     mavenPomFile: 'use-testng/pom.xml'
     goals: 'clean install'
-    publishJUnitResults: false
     javaHomeOption: 'JDKVersion'
     jdkVersionOption: '1.11'
     mavenVersionOption: 'Default'
