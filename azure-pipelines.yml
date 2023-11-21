@@ -12,8 +12,10 @@ pool:
 steps:
 - task: Maven@3
   inputs:
-    mavenPomFile: 'use-testng/pom.xml'
+    mavenPomFile: 'pom.xml'
     goals: 'clean compile'
+    options: '-f use-testng'
+    publishJUnitResults: false
     javaHomeOption: 'JDKVersion'
     jdkVersionOption: '1.11'
     mavenVersionOption: 'Default'
@@ -21,5 +23,4 @@ steps:
     mavenAuthenticateFeed: false
     effectivePomSkip: false
     sonarQubeRunAnalysis: false
-    publishJUnitResults: false
 
